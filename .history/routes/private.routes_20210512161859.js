@@ -4,13 +4,7 @@ const User = require("../models/User.model");
 //const Service = require('../models/Service.model);
 //const Reserve = require('../models/Reserve.model);
 
-//SHOW ALL CLIENTS
-router.get("/clients", (req, res, next) => {
-    User.find({})
-    .then(services => res.status(200).json(todos))
-    .catch(err => res.status(500).json(err))
-})
-
+//SHOW ALL SERVICES
 //CREATE SERVICE
 router.post("/create-service", async (req, res, next) => {
   const { name, image, description, price } = req.body;

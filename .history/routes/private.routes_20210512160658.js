@@ -4,14 +4,7 @@ const User = require("../models/User.model");
 //const Service = require('../models/Service.model);
 //const Reserve = require('../models/Reserve.model);
 
-//SHOW ALL CLIENTS
-router.get("/clients", (req, res, next) => {
-    User.find({})
-    .then(services => res.status(200).json(todos))
-    .catch(err => res.status(500).json(err))
-})
-
-//CREATE SERVICE
+//Create Service
 router.post("/create-service", async (req, res, next) => {
   const { name, image, description, price } = req.body;
 
@@ -33,20 +26,6 @@ router.post("/create-service", async (req, res, next) => {
   });
 });
 
-//EDIT SERVICE
-router.put("/services/:id", (req, res, next) => {
-    const { id } = req.params;
-    Service.findOneAndUpdate({_id: id, service: req.service.id }, req.body, { new: true })
-    .then(todo => res.status(200).json(todo))
-    .catch(err => res.status(500).json(err))
-})
-
-//DELETE SERVICE
-router.delete("/services/:id", (req, res, next) => {
-    const { id } = req.params;
-    Service.findOneAndUpdate({ _id: id, service: req.service.id}, req.body, { new: true })
-})
-
-
+router.put("/services/")
 
 module.exports = router;

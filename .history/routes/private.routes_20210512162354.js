@@ -6,7 +6,7 @@ const User = require("../models/User.model");
 
 //SHOW ALL CLIENTS
 router.get("/clients", (req, res, next) => {
-    User.find({})
+    User.find({ service: res.service.id})
     .then(services => res.status(200).json(todos))
     .catch(err => res.status(500).json(err))
 })

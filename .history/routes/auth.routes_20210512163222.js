@@ -2,9 +2,6 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router();
 const User = require("../models/User.model");
-const transporter = require('../configs/nodemailer.config');
-const { isLoggedOut } = require('../middlewares')
-const { isLoggedIn } = require('../middlewares')
 
 // Bcrypt config to encrypt passwords
 const bcrypt = require("bcryptjs");
@@ -70,19 +67,6 @@ router.post("/signup", (req, res, next) => {
             return res.status(500).json(error);
           }
 
-          transporter.sendMail({
-            from: "Iron Nails <ironhacknails@gmail.com>",
-            to: email,
-            subject: "Bienvenido a Iron Nails!",
-            html:`<p>Gracias por tu registro ${name}</p>`
-          })
-          .then(() => {
-            return res.status(300).json(newUser)
-          })
-          .catch(() => {
-            return res.status(300).json(newUser)
-          })
-
           return res.status(200).json(newUser);
         });
       })
@@ -90,7 +74,7 @@ router.post("/signup", (req, res, next) => {
   });
 });
 
-//LOGIN
+
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", (error, theUser, failureDetails) => {
     if (error) {
@@ -111,7 +95,6 @@ router.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
-//LOGOUT
 router.post("/logout", (req, res, next) => {
   // req.logout is defined by passport
   req.logout();

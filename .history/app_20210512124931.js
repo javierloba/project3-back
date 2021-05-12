@@ -14,9 +14,9 @@ require('./configs/cors.config')(app);
 require('./configs/session.config')(app);
 require('./configs/passport.config')(app);
 
-
+const todoRouter = require('./routes/todos.routes');
 const authRouter = require('./routes/auth.routes');
-
+app.use('/api/todos', todoRouter);
 app.use('/api/auth', authRouter);
 
 //  Catch 404 and respond with error message

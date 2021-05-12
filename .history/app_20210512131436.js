@@ -16,7 +16,7 @@ require('./configs/passport.config')(app);
 
 
 const authRouter = require('./routes/auth.routes');
-
+app.use('/api/todos', todoRouter);
 app.use('/api/auth', authRouter);
 
 //  Catch 404 and respond with error message

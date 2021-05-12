@@ -9,13 +9,13 @@ const bcryptSalt = 10;
 
 //Create User.
 router.post('/signup', (req, res, next) => {
-  const { name, surname, birthdate, phone_number, email, client_antiquity, password } = req.body;
+  const { name, surname, birthdate, phone_number, email, password } = req.body;
 
   if(password.length < 3){
     return res.status(400).json({ message: 'Please make your password at least 3 characters long'});
   }
 
-  if(!name || !surname || !birthdate || !phone_number || !email || !client_antiquity || !password){
+  if(!username || !email){
     return res.status(400).json({ message: 'Please fill all the fields in the form'});
   }
 
@@ -30,11 +30,10 @@ router.post('/signup', (req, res, next) => {
 
     User.create({
       name,
-      surname,
+      surename,
       birthdate,
       phone_number, 
-      email,
-      client_antiquity, 
+      email, 
       password: hashPass
     })
     .then((newUser) => {

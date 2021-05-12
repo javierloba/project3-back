@@ -95,7 +95,6 @@ router.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
-//LOGOUT
 router.post("/logout", (req, res, next) => {
   // req.logout is defined by passport
   req.logout();

@@ -12,13 +12,9 @@ router.get("/services", (req, res, next) => {
 });
 
 //CREATE RESERVE
-router.post("/create-reserve/:id",async (req, res, next) => {
-    const service_id = req.params.id;
-    const user_id = req.user.id
+router.post("/create-reserve",async (req, res, next) => {
+    const { reservation_date, status } = req.body;
     
-    const user_email = req.user.email
-
-    User.findOneAndUpdate({id: user_id}, {$push: {}})
 }) 
 
 module.exports = router;

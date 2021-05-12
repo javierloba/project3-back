@@ -12,13 +12,12 @@ router.get("/services", (req, res, next) => {
 });
 
 //CREATE RESERVE
-router.post("/create-reserve/:id",async (req, res, next) => {
-    const service_id = req.params.id;
-    const user_id = req.user.id
-    
-    const user_email = req.user.email
+router.post("/create-reserve",async (req, res, next) => {
+    const { reservation_date } = req.body;
 
-    User.findOneAndUpdate({id: user_id}, {$push: {}})
+    if (!reservation_date) {
+        return res.status(400).json({ message })
+    }
 }) 
 
 module.exports = router;

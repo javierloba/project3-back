@@ -7,9 +7,11 @@ const User = require("../models/User.model");
 //SHOW ALL CLIENTS
 router.get("/clients", (req, res, next) => {
     User.find({})
-    .then(services => res.status(200).json(services))
+    .then(services => res.status(200).json(todos))
     .catch(err => res.status(500).json(err))
 })
+
+//SHOW PROFILE
 
 //CREATE SERVICE
 router.post("/create-service", async (req, res, next) => {

@@ -109,6 +109,7 @@ router.put("/editClient", (req, res, next) => {
     .catch((err) => res.status(500).json(err));
 });
 
+
 router.get("/loggedin", (req, res, next) => {
   // req.isAuthenticated & req.user are defined by passport
   if (req.isAuthenticated()) {

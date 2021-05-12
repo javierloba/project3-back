@@ -7,7 +7,7 @@ const User = require("../models/User.model");
 //SHOW ALL CLIENTS
 router.get("/clients", (req, res, next) => {
     User.find({})
-    .then(services => res.status(200).json(services))
+    .then(services => res.status(200).json(serv))
     .catch(err => res.status(500).json(err))
 })
 

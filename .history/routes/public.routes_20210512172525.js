@@ -18,7 +18,7 @@ router.post("/create-reserve/:id",async (req, res, next) => {
     
     const user_email = req.user.email
 
-    User.findOneAndUpdate({id: user_id}, {$push: {}})
+    User.findOneAndUpdate({id: user_id}, {$push})
 }) 
 
 module.exports = router;

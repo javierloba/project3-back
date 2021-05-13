@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require("../models/User.model");
 const Worker = require("../models/Worker.model")
 const Service = require("../models/Service.model");
-//const Reserve = require('../models/Reserve.model);
+const Reserve = require('../models/Reserve.model');
 
 //SHOW ALL CLIENTS ------- OK
 router.get("/clients", (req, res, next) => {
@@ -19,7 +19,7 @@ router.get("/workers", (req, res, next) => {
     .catch((err) => res.status(500).json(err));
 });
 
-//CREATE RESERVE -------- REVIEW
+//CREATE RESERVE -------- OK
 router.get("/create-reserve", async (req, res, next) => {
   try {
 
@@ -78,7 +78,7 @@ router.delete("/services/:id", (req, res, next) => {
     .catch((err) => res.status(500).json(err));
 });
 
-//DELETE RESERVE
+//DELETE RESERVE 
 router.delete("/reserve/:id/delete", async (req, res, next) => {
   try {
 

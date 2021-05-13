@@ -12,7 +12,7 @@ router.get("/clients", (req, res, next) => {
     .catch((err) => res.status(500).json(err));
 });
 
-//SHOW ALL workers -------- OK
+//SHOW ALL workers
 router.get("/workers", (req, res, next) => {
   Worker.find({})
     .then((services) => res.status(200).json(services))

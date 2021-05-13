@@ -5,14 +5,14 @@ const Worker = require("../models/Worker.model")
 const Service = require("../models/Service.model");
 //const Reserve = require('../models/Reserve.model);
 
-//SHOW ALL CLIENTS ------- OK
+//SHOW ALL CLIENTS
 router.get("/clients", (req, res, next) => {
   User.find({})
     .then((services) => res.status(200).json(services))
     .catch((err) => res.status(500).json(err));
 });
 
-//SHOW ALL workers -------- OK
+//SHOW ALL workers
 router.get("/workers", (req, res, next) => {
   Worker.find({})
     .then((services) => res.status(200).json(services))
@@ -77,7 +77,6 @@ router.delete("/services/:id", (req, res, next) => {
     .then(() => res.status(200).json({ message: `Service ${id} deleted 🗑` }))
     .catch((err) => res.status(500).json(err));
 });
-
 
 
 module.exports = router;

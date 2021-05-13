@@ -65,24 +65,30 @@ router.delete("/services/:id/delete", (req, res, next) => {
 // ==== RESERVATIONS ROUTHES ==== //
 
 // Create reserve -------- OK
-router.get("/create-reserve", async (req, res, next) => {
+router.post("/create-reserve", async (req, res, next) => {
   try {
-    const { reservation_date } = req.body;
+    const { reservation_date, status } = req.body;
     if (!reservation_date) {
       return res.status(400).json({ message: "Date required" });
     }
-
-    const newReserve = await Reserve.create({ reservation_date })
-    const userId = req.user.id;
-    const updatedUser = await User.findOneAndUpdate({id: userId}, { $push: { service_reserve: newReserve._id } }, {new: true});
-    const workerId = req.params.id;
+    const userId = "609d29da2c632c9dde9af977";
+    const workerId = "609d29da2c632c9dde9af992";
+   
+    
+    const newReserve = await Reserve.create({ reservation_date, status })
+   
+    
+    const updatedUser = await User.findOneAndUpdate({_id: userId}, { $push: { service_reserve: newReserve._id } }, {new: true});
+   
+    
+    
     const updatedWorker = await Worker.findOneAndUpdate({_id: workerId}, { $push: { todo_services: newReserve._id } }, {new: true});
-
+    
     return res.status(200).json(newReserve, updatedUser, updatedWorker)
   } catch(error) { return res.status(500).json(error)}
 })
 
-// Show all reserves -------- PENDIENTE
+// Show all reserves -------- OK
 
 router.get("/reserves", (req, res, next) => {
   Reserve.find({})
@@ -102,7 +108,7 @@ router.put("/reserve/:id", (req, res, next) => {
 router.delete("/reserve/:id/delete", async (req, res, next) => {
   try {
     const { id } = req.params;
-    const deletedReserve = await Reserve.findOneAndRemove({ _id: id, reserve: req.reserve.id }) 
+    const deletedReserve = await Reserve.findOneAndRemove({ _id: id }) 
     const userId = req.user.id;
     const updatedUser = await User.findOneAndUpdate({id: userId}, { $pull: { service_reserve: deletedReserve._id } }, {new: true});
 

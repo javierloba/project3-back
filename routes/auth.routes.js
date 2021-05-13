@@ -178,6 +178,14 @@ router.put("/editClient/:id", (req, res, next) => {
     .catch((err) => res.status(500).json(err));
 });
 
+//EDIT WORKER ---------- OK
+router.put("/editWorker/:id", (req, res, next) => {
+  const { id } = req.params
+  Worker.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true })
+    .then((user) => res.status(200).json(user))
+    .catch((err) => res.status(500).json(err));
+});
+
 router.get("/loggedin", (req, res, next) => {
   // req.isAuthenticated & req.user are defined by passport
   if (req.isAuthenticated()) {

@@ -4,8 +4,6 @@ const router = express.Router();
 const User = require("../models/User.model");
 const Worker = require("../models/Worker.model")
 const transporter = require('../configs/nodemailer.config');
-const { isLoggedOut } = require('../middlewares')
-const { isLoggedIn } = require('../middlewares')
 
 // Bcrypt config to encrypt passwords
 const bcrypt = require("bcryptjs");
@@ -134,9 +132,10 @@ router.post("/createClient", (req, res, next) => {
             .then(() => {
               return res.status(200).json(newUser)
             })
+            .catch((err) => res.status(500).json({error: "error linea 137", message: error}))
 
       })
-      .catch((error) => res.status(500).json({error: "error linea 143", message: error}))
+      .catch((error) => res.status(500).json({error: "error linea 139", message: error}))
   })
   .catch((error) => res.status(500).json({error: "error linea 143", message: error}))
 });

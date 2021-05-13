@@ -4,8 +4,6 @@ const router = express.Router();
 const User = require("../models/User.model");
 const Worker = require("../models/Worker.model")
 const transporter = require('../configs/nodemailer.config');
-const { isLoggedOut } = require('../middlewares')
-const { isLoggedIn } = require('../middlewares')
 
 // Bcrypt config to encrypt passwords
 const bcrypt = require("bcryptjs");
@@ -134,9 +132,10 @@ router.post("/createClient", (req, res, next) => {
             .then(() => {
               return res.status(200).json(newUser)
             })
+            .catch((err) => res.status(500).json({error: "error linea 137", message: error}))
 
       })
-      .catch((error) => res.status(500).json({error: "error linea 143", message: error}))
+      .catch((error) => res.status(500).json({error: "error linea 139", message: error}))
   })
   .catch((error) => res.status(500).json({error: "error linea 143", message: error}))
 });
@@ -169,9 +168,19 @@ router.post("/logout", (req, res, next) => {
   return res.status(200).json({ message: "Log out success!" });
 });
 
-//EDIT USER ---------- 
-router.put("/editClient", (req, res, next) => {
-  User.findOneAndUpdate({ _id: req.user.id }, { ...req.body }, { new: true })
+//EDIT USER ---------- OK
+router.put("/editClient/:id", (req, res, next) => {
+  console.log(req.params)
+  const { id } = req.params
+  User.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true })
+    .then((user) => res.status(200).json(user))
+    .catch((err) => res.status(500).json(err));
+});
+
+//EDIT WORKER ---------- OK
+router.put("/editWorker/:id", (req, res, next) => {
+  const { id } = req.params
+  Worker.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true })
     .then((user) => res.status(200).json(user))
     .catch((err) => res.status(500).json(err));
 });

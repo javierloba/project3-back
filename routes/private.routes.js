@@ -55,7 +55,8 @@ router.put("/services/:id", (req, res, next) => {
 //Delete service ------------- OK
 router.delete("/services/:id/delete", (req, res, next) => {
   const { id } = req.params;
-  Service.findOneAndRemove({id})
+  console.log(id)
+  Service.findOneAndRemove({_id: id})
   .then(() => res.status(200).json({ message: `Service ${id} deleted 🗑` }))
   .catch((err) => res.status(500).json(err));
 });
@@ -101,7 +102,7 @@ router.put("/reserve/:id", (req, res, next) => {
 router.delete("/reserve/:id/delete", async (req, res, next) => {
   try {
     const { id } = req.params;
-    const deletedReserve = await Reserve.findOneAndRemove({ id })
+    const deletedReserve = await Reserve.findOneAndRemove({ _id: id, reserve: req.reserve.id }) 
     const userId = req.user.id;
     const updatedUser = await User.findOneAndUpdate({id: userId}, { $pull: { service_reserve: deletedReserve._id } }, {new: true});
 

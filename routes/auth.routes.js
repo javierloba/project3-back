@@ -65,7 +65,7 @@ router.post("/createWorker", (req, res, next) => {
 })
 
 //CREATE CLIENT -------- OK
-router.post("/createClient", (req, res, next) => {
+router.post("/createUser", (req, res, next) => {
   const {
     client_number,
     name,
@@ -177,6 +177,14 @@ router.put("/editClient/:id", (req, res, next) => {
     .catch((err) => res.status(500).json(err));
 });
 
+//DELETE USER ------ OK
+router.delete("/deleteClient/:id", (req, res, next) => {
+  const { id } = req.params;
+  User.findOneAndRemove({_id: id})
+  .then(()=> res.status(200).json({ message: `User ${id} deleted from Database`}))
+  .catch((err) => res.status(500).json(err));
+})
+
 //EDIT WORKER ---------- OK
 router.put("/editWorker/:id", (req, res, next) => {
   const { id } = req.params
@@ -184,6 +192,14 @@ router.put("/editWorker/:id", (req, res, next) => {
     .then((user) => res.status(200).json(user))
     .catch((err) => res.status(500).json(err));
 });
+
+//DELETE WORKER----------- OK
+router.delete("/deleteWorker/:id", (req, res, next) => {
+  const { id } = req.params;
+  Worker.findOneAndRemove({_id: id})
+  .then(()=> res.status(200).json({ message: `Worker ${id} deleted from Database`}))
+  .catch((err) => res.status(500).json(err));
+})
 
 router.get("/loggedin", (req, res, next) => {
   // req.isAuthenticated & req.user are defined by passport

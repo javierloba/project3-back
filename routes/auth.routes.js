@@ -169,9 +169,11 @@ router.post("/logout", (req, res, next) => {
   return res.status(200).json({ message: "Log out success!" });
 });
 
-//EDIT USER ---------- 
-router.put("/editClient", (req, res, next) => {
-  User.findOneAndUpdate({ _id: req.user.id }, { ...req.body }, { new: true })
+//EDIT USER ---------- OK
+router.put("/editClient/:id", (req, res, next) => {
+  console.log(req.params)
+  const { id } = req.params
+  User.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true })
     .then((user) => res.status(200).json(user))
     .catch((err) => res.status(500).json(err));
 });

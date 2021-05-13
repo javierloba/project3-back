@@ -66,7 +66,7 @@ router.post("/createWorker", (req, res, next) => {
   })
 })
 
-//CREATE CLIENT -------- REVIEW
+//CREATE CLIENT -------- OK
 router.post("/createClient", (req, res, next) => {
   const {
     client_number,
@@ -75,10 +75,9 @@ router.post("/createClient", (req, res, next) => {
     birthday,
     phone_number,
     email,
-    client_antiquity,
-    password,
+    password
   } = req.body;
-
+  console.log(req.body)
   if (password.length < 3) {
     return res
       .status(400)
@@ -94,7 +93,6 @@ router.post("/createClient", (req, res, next) => {
     !birthday ||
     !phone_number ||
     !email ||
-    !client_antiquity ||
     !password
   ) {
     return res
@@ -119,32 +117,28 @@ router.post("/createClient", (req, res, next) => {
       birthday,
       phone_number,
       email,
-      client_antiquity,
       password: hashPass,
     })
       .then((newUser) => {
         // Passport req.login permite iniciar sesión tras crear el usuario
-          if (error) {
-            return res.status(500).json(error);
+        console.log("usuario creado")  
+        if (error) {
+            return res.status(500).json({error: "error linea 125"});
           }
-          transporter.sendMail({
-            from: "Iron Nails <ironhacknails@gmail.com>",
-            to: email,
-            subject: "Bienvenido a Iron Nails!",
-            html:`<p>Gracias por tu registro ${name}</p>`
-          })
-          .then(() => {
-            return res.status(200).json(newUser)
-          })
-          .catch(() => {
-            return res.status(200).json(newUser)
-          })
+            transporter.sendMail({
+              from: "Iron Nails <ironhacknails@gmail.com>",
+              to: email,
+              subject: "Bienvenido a Iron Nails!",
+              html:`<p>Gracias por tu registro ${name}</p>`
+            })
+            .then(() => {
+              return res.status(200).json(newUser)
+            })
 
-          return res.status(200).json(newUser);
-       
       })
-      .catch((error) => res.status(500).json(error));
-  });
+      .catch((error) => res.status(500).json({error: "error linea 143", message: error}))
+  })
+  .catch((error) => res.status(500).json({error: "error linea 143", message: error}))
 });
 
 //LOGIN ----------- OK

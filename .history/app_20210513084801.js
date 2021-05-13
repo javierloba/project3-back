@@ -16,8 +16,6 @@ require('./configs/passport.config')(app);
 
 
 const authRouter = require('./routes/auth.routes');
-const privateRoute = require('./routes/private.routes');
-const publicRouter = require('./routes/private.routes');
 
 app.use('/api/auth', authRouter);
 app.use('/api/private', privateRoute);
@@ -27,5 +25,7 @@ app.use('/api/public', publicRouter)
 app.use((req, res, next) => {
   return res.status(404).json({ message: "Not found"});
 })
-
+app.use((req, res, next) => {
+  return res.status(404).json({ message: "Not found"});
+})
 module.exports = app;

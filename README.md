@@ -154,9 +154,10 @@ Aplicación de gestión de clientes y trabajadores para un negocio de servicios.
 {
     name: {type: String, required: true},
     image: {type: String, required: true},
-    description: {type: Name, required: true},
+    description: {type: Nameequired: true},
     price: {type: Number, required: true},
     reserves: [{type: ObjectId}]
+    
 }
 ```
 
@@ -177,12 +178,13 @@ Aplicación de gestión de clientes y trabajadores para un negocio de servicios.
 
 ```javascript
 {
+    worker_number: { type: Number, required: true},
  	name: {type: String, required: true},
     surname: {type: String, required: true},
     email: {type: String, required: true},
     password: {type: String, required: true},
     phone_number: {type: Number, required: true },
-    role: { type: String, enum ["Admin", "Worker"]}
+    role: { type: String, enum ["Admin", "Worker"]},
     todo_services: [],
     done_services: []
 }

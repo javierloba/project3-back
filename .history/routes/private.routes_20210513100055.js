@@ -41,7 +41,7 @@ router.put("/services/:id", (req, res, next) => {
 //DELETE SERVICE
 router.delete("/services/:id", (req, res, next) => {
   const { id } = req.params;
-  Service.findOneRemove({id})
+  Service.findOneRemove({ _id: id
     .then(() => res.status(200).json({ message: `Service ${id} deleted 🗑` }))
     .catch((err) => res.status(500).json(err));
 });

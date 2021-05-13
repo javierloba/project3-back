@@ -43,27 +43,7 @@ router.post("/createWorker", (req, res, next) => {
       .json({ message: "Please fill all the fields in the form" });
   }
 
-  Worker.findOne({ email }).then((worker) => {
-    if (user) {
-      return res
-      .status(400)
-      .json({ message: "Worker already exists. Please change the email"})
-    }
-
-    const salt = bcrypt.genSaltSync(bcryptSalt);
-    const hashPass = bcrypt.hashSync(password, salt);
-
-    Worker.create({
-      name,
-      surname,
-      email,
-      password: hashPass,
-      phone_number,
-      role,
-    })
-    .then((newWorker) => res.status(200).json(newWorker))
-    .catch(err => res.status(500).json(err))
-  })
+  Worker.findOne({ email }).then(worker)
 })
 
 //Create Client.

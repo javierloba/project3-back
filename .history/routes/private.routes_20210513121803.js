@@ -11,48 +11,24 @@ router.get("/clients", (req, res, next) => {
     .catch((err) => res.status(500).json(err));
 });
 
-//CREATE RESERVE
-router.get("/create-reserve", async (req, res, next) => {
-  try {
-
-    const { reservation_date } = req.body;
-
-    if (!reservation_date) {
-      return res.status(400).json({ message: "Date required" });
-    }
-
-    const newReserve = await Reserve.create({ reservation_date })
-
-    const userId = req.user.id;
-
-    const updatedUser = await User.findOneAndUpdate({id: userId}, { $push: { service_reserve: newReserve._id } }, {new: true});
-
-    const workerId = req.params.id;
-
-    const updatedWorker = await Worker.findOneAndUpdate({_id: workerId}, { $push: { todo_services: newReserve._id } }, {new: true});
-
-    return res.status(200).json(newReserve, updatedUser, updatedWorker)
-
-  } catch(error) { return res.status(500).json(error)}
-})
-
 //CREATE SERVICE
-router.post("/createService", (req, res, next) => {
+router.post("/create-service", (req, res, next) => {
   const { name, image, description, duration, price } = req.body;
 
-  if (!name || !description || !image || !price || !duration) {
+  if (!name || !description || !image || !price) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
-    if (!name || !description || !image || !price) {
-      return res.status(400).json({ message: "All fields are required" });
+  Service.findOne({ name }).then((service) => {
+    if (service) {
+      return res.status(400).json({ message: "Service already exists." });
     }
 
-    Service.create({ name, description, image, price, duration })
+    Service.create({ name, description, image, price })
     .then(service => res.status(200).json(service))
     .catch(err => res.status(500).json(err));
   });
-
+});
 
 //EDIT SERVICE
 router.put("/services/:id", (req, res, next) => {

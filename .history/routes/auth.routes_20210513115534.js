@@ -2,7 +2,7 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router();
 const User = require("../models/User.model");
-const Worker = require("../models/Worker.model")
+const Worker = require("../models")
 const transporter = require('../configs/nodemailer.config');
 const { isLoggedOut } = require('../middlewares')
 const { isLoggedIn } = require('../middlewares')
@@ -30,40 +30,21 @@ router.post("/createWorker", (req, res, next) => {
       });
   }
 
-  if(
+  if (
+    !client_number ||
     !name ||
     !surname ||
-    !email ||
-    !password ||
+    !birthday ||
     !phone_number ||
-    !role    
+    !email ||
+    !client_antiquity ||
+    !password
   ) {
     return res
       .status(400)
       .json({ message: "Please fill all the fields in the form" });
   }
 
-  Worker.findOne({ email }).then((worker) => {
-    if (user) {
-      return res
-      .status(400)
-      .json({ message: "Worker already exists. Please change the email"})
-    }
-
-    const salt = bcrypt.genSaltSync(bcryptSalt);
-    const hashPass = bcrypt.hashSync(password, salt);
-
-    Worker.create({
-      name,
-      surname,
-      email,
-      password: hashPass,
-      phone_number,
-      role,
-    })
-    .then((newWorker) => res.status(200).json(newWorker))
-    .catch(err => res.status(500).json(err))
-  })
 })
 
 //Create Client.

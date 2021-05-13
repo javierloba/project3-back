@@ -61,8 +61,7 @@ router.post("/createWorker", (req, res, next) => {
       phone_number,
       role,
     })
-    .then((newWorker) => res.status(200).json(newWorker))
-    .catch(err => res.status(500).json(err))
+    .then
   })
 })
 

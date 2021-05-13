@@ -43,7 +43,7 @@ router.post("/createService", (req, res, next) => {
     .then(service => res.status(200).json(service))
     .catch(err => res.status(500).json(err));
   });
-
+});
 
 //EDIT SERVICE
 router.put("/services/:id", (req, res, next) => {

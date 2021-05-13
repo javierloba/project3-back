@@ -78,6 +78,25 @@ router.delete("/services/:id", (req, res, next) => {
     .catch((err) => res.status(500).json(err));
 });
 
+//DELETE RESERVE
+router.delete("/reserve/:id/delete", async (req, res, next) => {
+  try {
 
+    const { id } = req.params;
+
+    const deletedReserve = await Reserve.findOneAndRemove({ id })
+
+    const userId = req.user.id;
+
+    const updatedUser = await User.findOneAndUpdate({id: userId}, { $pull: { service_reserve: deletedReserve._id } }, {new: true});
+
+    const workerId = req.params.id;
+
+    const updatedWorker = await Worker.findOneAndUpdate({_id: workerId}, { $pull: { todo_services: deletedReserve._id } }, {new: true});
+
+    return res.status(200).json(deletedReserve, updatedUser, updatedWorker)
+
+  } catch(error) { return res.status(500).json(error)}
+})
 
 module.exports = router;

@@ -12,21 +12,29 @@ router.get("/clients", (req, res, next) => {
 });
 
 //CREATE SERVICE
-router.post("/create-service", (req, res, next) => {
-  const { name, image, description, price } = req.body;
+router.get("/create-service", async (req, res, next) => {
+  try {
 
-  if (!name || !description || !image || !price) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
+    const { name, image, description, price } = req.body;
 
-  Service.findOne({ name }).then((service) => {
-    if (service) {
-      return res.status(400).json({ message: "Service already exists." });
+    if (!name || !description || !image || !price) {
+      return res.status(400).json({ message: "All fields are required" });
     }
 
-    Service.create({ name, description, image, price }).then();
-  });
-});
+    const newService = await Service.create({ name, description, image, price })
+
+    const userId = req.user.id;
+
+    const updatedUser = await User.findOneAndUpdate({id: userId}, { $push: { service_reserve: newService._id } }, {new: true});
+
+    const workerId = req.params.id;
+
+    const updatedWorker = await Worker.findOneAndUpdate({_id: workerId}, { $push: { todo_services: newService._id } }, {new: true});
+
+    return res.status(200).json(newService, updatedUser, updatedWorker)
+
+  } catch(error) { return res.status(500).json(error)}
+})
 
 //EDIT SERVICE
 router.put("/services/:id", (req, res, next) => {

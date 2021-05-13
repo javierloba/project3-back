@@ -19,7 +19,7 @@ router.get("/workers", (req, res, next) => {
     .catch((err) => res.status(500).json(err));
 });
 
-//CREATE RESERVE
+//CREATE RESERVE -------- REVIEW
 router.get("/create-reserve", async (req, res, next) => {
   try {
 
@@ -44,7 +44,7 @@ router.get("/create-reserve", async (req, res, next) => {
   } catch(error) { return res.status(500).json(error)}
 })
 
-//CREATE SERVICE
+//CREATE SERVICE ------------ OK
 router.post("/createService", (req, res, next) => {
   const { name, image, description, duration, price } = req.body;
 
@@ -62,7 +62,7 @@ router.post("/createService", (req, res, next) => {
   });
 
 
-//EDIT SERVICE
+//EDIT SERVICE ----------- OK
 router.put("/services/:id", (req, res, next) => {
   const { id } = req.params;
   Service.findOneAndUpdate({ _id: id}, {...req.body}, { new: true })
@@ -70,7 +70,7 @@ router.put("/services/:id", (req, res, next) => {
     .catch((err) => res.status(500).json(err));
 });
 
-//DELETE SERVICE
+//DELETE SERVICE ------------- OK
 router.delete("/services/:id", (req, res, next) => {
   const { id } = req.params;
   Service.findOneAndRemove({id})

@@ -1,6 +1,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/User.model');
+const Worker = require('../models/Worker.model');
 const bcrypt = require('bcryptjs');
 
 module.exports = (app) => {
@@ -17,6 +18,23 @@ module.exports = (app) => {
   // Local Strategy
   passport.use(new LocalStrategy({ passReqToCallback: true, usernameField: 'email'}, (req, email, password, next) => {
     User.findOne({ email })
+    .then(user => {
+      if(!user){
+        return next(null, false, { message: 'Usuario o contraseña incorrectos.'});
+      }
+
+      if(bcrypt.compareSync(password, user.password)){
+        return next(null, user);
+      } else {
+        return next(null, false, { message: 'Usuario o contraseña incorrectos'});
+      }
+    }) 
+    .catch((error) => next(error))
+  }))
+
+  //LOCAL STRATEGY WORKER
+  passport.use(new LocalStrategy({ passReqToCallback: true, usernameField: 'email'}, (req, email, password, next) => {
+    Worker.findOne({ email })
     .then(user => {
       if(!user){
         return next(null, false, { message: 'Usuario o contraseña incorrectos.'});

@@ -57,12 +57,10 @@ router.post("/createWorker", (req, res, next) => {
       name,
       surname,
       email,
-      password: hashPass,
+      password,
       phone_number,
       role,
     })
-    .then((newWorker) => res.status(200).json(newWorker))
-    .catch(err => res.status(500).json(err))
   })
 })
 

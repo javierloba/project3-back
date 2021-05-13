@@ -53,16 +53,7 @@ router.post("/createWorker", (req, res, next) => {
     const salt = bcrypt.genSaltSync(bcryptSalt);
     const hashPass = bcrypt.hashSync(password, salt);
 
-    Worker.create({
-      name,
-      surname,
-      email,
-      password: hashPass,
-      phone_number,
-      role,
-    })
-    .then((newWorker) => res.status(200).json(newWorker))
-    .catch(err => res.status(500).json(err))
+    Worker.create
   })
 })
 

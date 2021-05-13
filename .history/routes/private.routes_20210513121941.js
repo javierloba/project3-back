@@ -12,7 +12,7 @@ router.get("/clients", (req, res, next) => {
 });
 
 //CREATE RESERVE
-router.get("/createReserve", async (req, res, next) => {
+router.get("/create-service", async (req, res, next) => {
   try {
     const { name, image, description, price } = req.body;
     if (!name || !description || !image || !price) {
@@ -28,7 +28,7 @@ router.get("/createReserve", async (req, res, next) => {
 })
 
 //CREATE SERVICE
-router.post("/createService", (req, res, next) => {
+router.post("/create-service", (req, res, next) => {
   const { name, image, description, duration, price } = req.body;
 
   if (!name || !description || !image || !price || !duration) {

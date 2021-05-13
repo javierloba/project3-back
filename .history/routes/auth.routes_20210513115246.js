@@ -2,7 +2,6 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router();
 const User = require("../models/User.model");
-const Worker = require("../models/Worker.model")
 const transporter = require('../configs/nodemailer.config');
 const { isLoggedOut } = require('../middlewares')
 const { isLoggedIn } = require('../middlewares')
@@ -15,57 +14,8 @@ const bcryptSalt = 10;
 router.post("/createWorker", (req, res, next) => {
   const {
     name,
-    surname,
-    email,
-    password,
-    phone_number,
-    role,
-  } = req.body;
-
-  if (password.length < 3) {
-    return res
-      .status(400)
-      .json({
-        message: "Please make your password at least 3 characters long",
-      });
   }
-
-  if(
-    !name ||
-    !surname ||
-    !email ||
-    !password ||
-    !phone_number ||
-    !role    
-  ) {
-    return res
-      .status(400)
-      .json({ message: "Please fill all the fields in the form" });
-  }
-
-  Worker.findOne({ email }).then((worker) => {
-    if (user) {
-      return res
-      .status(400)
-      .json({ message: "Worker already exists. Please change the email"})
-    }
-
-    const salt = bcrypt.genSaltSync(bcryptSalt);
-    const hashPass = bcrypt.hashSync(password, salt);
-
-    Worker.create({
-      name,
-      surname,
-      email,
-      password: hashPass,
-      phone_number,
-      role,
-    })
-    .then((newWorker) => res.status(200).json(newWorker))
-    .catch(err => res.status(500).json(err))
-  })
 })
-
 //Create Client.
 router.post("/createClient", (req, res, next) => {
   const {

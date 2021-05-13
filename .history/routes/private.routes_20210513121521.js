@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User.model");
-const Service = require("../models/Service.model");
+const Servi
 //const Reserve = require('../models/Reserve.model);
 
 //SHOW ALL CLIENTS
@@ -11,27 +11,11 @@ router.get("/clients", (req, res, next) => {
     .catch((err) => res.status(500).json(err));
 });
 
-//CREATE RESERVE
-router.get("/createReserve", async (req, res, next) => {
-  try {
-    const { name, image, description, price } = req.body;
-    if (!name || !description || !image || !price) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
-    const newService = await Service.create({ name, description, image, price })
-    const userId = req.user.id;
-    const updatedUser = await User.findOneAndUpdate({id: userId}, { $push: { service_reserve: newService._id } }, {new: true});
-    const workerId = req.params.id;
-    const updatedWorker = await Worker.findOneAndUpdate({_id: workerId}, { $push: { todo_services: newService._id } }, {new: true});
-    return res.status(200).json(newService, updatedUser, updatedWorker)
-  } catch(error) { return res.status(500).json(error)}
-})
-
 //CREATE SERVICE
-router.post("/createService", (req, res, next) => {
-  const { name, image, description, duration, price } = req.body;
+router.post("/create-service", (req, res, next) => {
+  const { name, image, description, price } = req.body;
 
-  if (!name || !description || !image || !price || !duration) {
+  if (!name || !description || !image || !price) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
@@ -40,7 +24,7 @@ router.post("/createService", (req, res, next) => {
       return res.status(400).json({ message: "Service already exists." });
     }
 
-    Service.create({ name, description, image, price, duration })
+    Service.create({ name, description, image, price })
     .then(service => res.status(200).json(service))
     .catch(err => res.status(500).json(err));
   });

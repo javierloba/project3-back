@@ -44,7 +44,7 @@ router.post("/createWorker", (req, res, next) => {
   }
 
   Worker.findOne({ email }).then((worker) => {
-    if (worker) {
+    if (user) {
       return res
       .status(400)
       .json({ message: "Worker already exists. Please change the email"})

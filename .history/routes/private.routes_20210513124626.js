@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User.model");
-const Worker = require("../models/Worker.model")
 const Service = require("../models/Service.model");
 //const Reserve = require('../models/Reserve.model);
 
@@ -14,7 +13,7 @@ router.get("/clients", (req, res, next) => {
 
 //SHOW ALL workers
 router.get("/workers", (req, res, next) => {
-  Worker.find({})
+  User.find({})
     .then((services) => res.status(200).json(services))
     .catch((err) => res.status(500).json(err));
 });

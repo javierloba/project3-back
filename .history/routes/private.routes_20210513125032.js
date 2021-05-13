@@ -20,7 +20,7 @@ router.get("/workers", (req, res, next) => {
 });
 
 //CREATE RESERVE
-router.get("/create-reserve", async (req, res, next) => {
+router.("/create-reserve", async (req, res, next) => {
   try {
 
     const { reservation_date } = req.body;

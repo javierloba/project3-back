@@ -12,5 +12,13 @@ module.exports = {
         } else {
             next();
         }
-    }
+    },
+    checkRole: (role) => (req, res, next) => {
+        if(req.isAuthenticated() && req.user.role === role){
+          next()
+        } else {
+          res.redirect("/auth/login");
+        }
+      }
+
 }

@@ -6,9 +6,10 @@ const Worker = require("../models/Worker.model")
 const transporter = require('../configs/nodemailer.config');
 const bcrypt = require("bcryptjs");
 const bcryptSalt = 10;
+const { checkRole } = require('../middlewares/index')
 
 //CREATE WORKER ------ OK
-router.post("/createWorker", (req, res, next) => {
+router.post("/createWorker", checkRole('Admin'), (req, res, next) => {
   const {
     name,
     surname,
@@ -63,7 +64,7 @@ router.post("/createWorker", (req, res, next) => {
 })
 
 //CREATE CLIENT -------- OK
-router.post("/createUser", (req, res, next) => {
+router.post("/createUser", checkRole('Admin'), (req, res, next) => {
   const {
     client_number,
     name,
@@ -174,7 +175,7 @@ router.put("/editClient/:id", (req, res, next) => {
 });
 
 //DELETE USER ------ OK
-router.delete("/deleteClient/:id", (req, res, next) => {
+router.delete("/deleteClient/:id", checkRole('Admin'), (req, res, next) => {
   const { id } = req.params;
   User.findOneAndRemove({_id: id})
   .then(()=> res.status(200).json({ message: `User ${id} deleted from Database`}))
@@ -182,7 +183,7 @@ router.delete("/deleteClient/:id", (req, res, next) => {
 })
 
 //EDIT WORKER ---------- OK
-router.put("/editWorker/:id", (req, res, next) => {
+router.put("/editWorker/:id", checkRole('Admin'),(req, res, next) => {
   const { id } = req.params
   Worker.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true })
     .then((user) => res.status(200).json(user))
@@ -190,7 +191,7 @@ router.put("/editWorker/:id", (req, res, next) => {
 });
 
 //DELETE WORKER----------- OK
-router.delete("/deleteWorker/:id", (req, res, next) => {
+router.delete("/deleteWorker/:id", checkRole('Admin'),(req, res, next) => {
   const { id } = req.params;
   Worker.findOneAndRemove({_id: id})
   .then(()=> res.status(200).json({ message: `Worker ${id} deleted from Database`}))

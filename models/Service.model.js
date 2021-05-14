@@ -7,7 +7,6 @@ const serviceSchema = new Schema({
     duration: {type: Number, required: true},
     description: {type: String, required: true},
     price: {type: Number, required: true},
-    reserves: [{type: Schema.Types.ObjectId, ref: 'Reserve'}],
     worker_id: [{type: Schema.Types.ObjectId, ref: 'Worker'}]
 })
 

@@ -4,8 +4,6 @@ const router = express.Router();
 const User = require("../models/User.model");
 const Worker = require("../models/Worker.model")
 const transporter = require('../configs/nodemailer.config');
-
-// Bcrypt config to encrypt passwords
 const bcrypt = require("bcryptjs");
 const bcryptSalt = 10;
 
@@ -118,7 +116,6 @@ router.post("/createUser", (req, res, next) => {
       password: hashPass,
     })
       .then((newUser) => {
-        // Passport req.login permite iniciar sesión tras crear el usuario
         console.log("usuario creado")  
         if (error) {
             return res.status(500).json({error: "error linea 125"});
@@ -163,7 +160,6 @@ router.post("/login", (req, res, next) => {
 
 //LOGOUT ------- OK
 router.post("/logout", (req, res, next) => {
-  // req.logout is defined by passport
   req.logout();
   return res.status(200).json({ message: "Log out success!" });
 });
@@ -202,7 +198,6 @@ router.delete("/deleteWorker/:id", (req, res, next) => {
 })
 
 router.get("/loggedin", (req, res, next) => {
-  // req.isAuthenticated & req.user are defined by passport
   if (req.isAuthenticated()) {
     return res.status(200).json(req.user);
   } else {

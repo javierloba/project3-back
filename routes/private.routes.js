@@ -96,15 +96,15 @@ router.get("/reserves", (req, res, next) => {
     .catch((err) => res.status(500).json(err));
 });
 
-//Edit reserve ----------- PENDIENTE
+//Edit reserve ----------- OK
 router.put("/reserve/:id", (req, res, next) => {
-  const { id } = req.params;
+  const id = "609d29da2c632c9dde9af997"
   Reserve.findOneAndUpdate({ _id: id}, {...req.body}, { new: true })
   .then((reserve) => res.status(200).json(reserve))
   .catch((err) => res.status(500).json(err));
 });
 
-// Delete reserve -------- PENDIENTE
+// Delete reserve -------- OK
 router.delete("/reserve/:id/delete", async (req, res, next) => {
   try {
     const { id } = req.params;

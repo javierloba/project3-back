@@ -4,30 +4,43 @@ const User = require("../models/User.model");
 const Worker = require("../models/Worker.model");
 const Service = require("../models/Service.model");
 const Reserve = require("../models/Reserve.model");
-const { checkRole } = require('../middlewares/index')
+const { checkRole } = require("../middlewares/index");
 
 // ==== USER ROUTHES ==== //
 
 //Show all users ------- OK
-router.get("/clients", checkRole('Admin', 'Worker'),(req, res, next) => {
+router.get("/clients", checkRole("Admin", "Worker"), (req, res, next) => {
   User.find({})
     .then((users) => res.status(200).json(users))
+    .catch((err) => res.status(500).json(err));
+});
+
+router.get("/client/:id", checkRole("Admin", "Worker"), (req, res, next) => {
+  const { id } = req.params;
+  Client.findById(id)
+    .then((client) => res.status(200).json(client))
     .catch((err) => res.status(500).json(err));
 });
 
 // ==== WORKERS ROUTHES ==== //
 
 //Show all workers -------- OK
-router.get("/workers", checkRole('Admin'),(req, res, next) => {
+router.get("/workers", checkRole("Admin"), (req, res, next) => {
   Worker.find({})
     .then((workers) => res.status(200).json(workers))
     .catch((err) => res.status(500).json(err));
 });
 
+router.get("/worker/:id", checkRole("Admin"), (req, res, next) => {
+  const { id } = req.params;
+  Worker.findById(id)
+    .then((worker) => res.status(200).json(worker))
+    .catch((err) => res.status(500).json(err));
+});
 // ==== SERVICES ROUTHES ==== //
 
 //Create service ------------ OK
-router.post("/createService", checkRole('Admin'),(req, res, next) => {
+router.post("/createService", checkRole("Admin"), (req, res, next) => {
   const { name, image, description, duration, price } = req.body;
   if (!name || !description || !image || !price || !duration) {
     return res.status(400).json({ message: "All fields are required" });
@@ -43,7 +56,7 @@ router.post("/createService", checkRole('Admin'),(req, res, next) => {
 });
 
 //Edit service ----------- OK
-router.put("/services/:id", checkRole('Admin', 'Worker'),(req, res, next) => {
+router.put("/services/:id", checkRole("Admin", "Worker"), (req, res, next) => {
   const { id } = req.params;
   Service.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true })
     .then((service) => res.status(200).json(service))
@@ -51,7 +64,7 @@ router.put("/services/:id", checkRole('Admin', 'Worker'),(req, res, next) => {
 });
 
 //Delete service ------------- OK
-router.delete("/services/:id/delete", checkRole('Admin'),(req, res, next) => {
+router.delete("/services/:id/delete", checkRole("Admin"), (req, res, next) => {
   const { id } = req.params;
   console.log(id);
   Service.findOneAndRemove({ _id: id })
@@ -96,11 +109,18 @@ router.post("/create-reserve", async (req, res, next) => {
 });
 
 // Show all reserves -------- OK
-
 router.get("/reserves", (req, res, next) => {
   Reserve.find({})
     .populate("service_id")
     .then((reserves) => res.status(200).json(reserves))
+    .catch((err) => res.status(500).json(err));
+});
+
+//Show resrve detail
+router.get("/reserve/:id", (req, res, next) => {
+  const { id } = req.params;
+  Reserve.findById(id)
+    .then((service) => res.status(200).json(service))
     .catch((err) => res.status(500).json(err));
 });
 

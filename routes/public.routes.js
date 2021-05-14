@@ -11,4 +11,11 @@ router.get("/services", (req, res, next) => {
     .catch(err => res.status(500).json(err))
 });
 
+//Show service detail
+router.get("/service/:id", (req, res, next) => {
+    const { id } = req.params;
+    Service.findById(id)
+    .then((service) => res.status(200).json(service))
+    .catch((err) => res.status(500).json(err))
+  })
 module.exports = router;

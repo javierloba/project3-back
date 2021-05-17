@@ -21,7 +21,8 @@ const userSchema = new Schema({
   birthday: {type: String, required: true},
   phone_number: {type: String, required: true },
   service_reserve: [],
-  promotions: []
+  promotions: [],
+  worker: {type: Schema.Types.ObjectId, ref: 'Worker'}
   //avatar: {type: String, required: true}
 }, {
   timestamps: true,

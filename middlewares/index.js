@@ -3,13 +3,11 @@ module.exports = {
         if(req.isAuthenticated()) {
             next();
         } else {
-            res.redirect('/auth/login');
+            res.status(418).json();
         }
     },
     isLoggedOut: (req, res, next) => {
-        if(req.isAuthenticated()) {
-            res.redirect('/auth/private');
-        } else {
+        if(!req.isAuthenticated()) {
             next();
         }
     },
@@ -17,7 +15,7 @@ module.exports = {
         if(req.isAuthenticated() && req.user.role === role){
           next()
         } else {
-          res.redirect("/auth/login");
+            res.status(418).json();
         }
       }
 

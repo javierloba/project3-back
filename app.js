@@ -16,12 +16,16 @@ require('./configs/passport.config')(app);
 
 
 const authRouter = require('./routes/auth.routes');
-const privateRoute = require('./routes/private.routes');
-const publicRouter = require('./routes/public.routes');
+const reserveRouter = require('./routes/reserve.routes');
+const serviceRouter = require('./routes/service.routes');
+const userRouter = require('./routes/user.routes');
+const workerRouter = require('./routes/worker.routes');
 
 app.use('/api/auth', authRouter);
-app.use('/api/private', privateRoute);
-app.use('/api/public', publicRouter)
+app.use('/api/reserve', reserveRouter);
+app.use('./api/service', serviceRouter);
+app.use('./api/user', userRouter);
+app.use('./api/worker', workerRouter);
 
 //  Catch 404 and respond with error message
 app.use((req, res, next) => {

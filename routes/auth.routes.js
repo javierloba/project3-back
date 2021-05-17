@@ -8,62 +8,7 @@ const bcrypt = require("bcryptjs");
 const bcryptSalt = 10;
 const { checkRole } = require('../middlewares/index')
 
-//CREATE WORKER ------ OK
-router.post("/createWorker", checkRole('Admin'), (req, res, next) => {
-  const {
-    name,
-    surname,
-    email,
-    password,
-    phone_number,
-    role,
-  } = req.body;
-
-  if (password.length < 3) {
-    return res
-      .status(400)
-      .json({
-        message: "Please make your password at least 3 characters long",
-      });
-  }
-
-  if(
-    !name ||
-    !surname ||
-    !email ||
-    !password ||
-    !phone_number ||
-    !role    
-  ) {
-    return res
-      .status(400)
-      .json({ message: "Please fill all the fields in the form" });
-  }
-
-  Worker.findOne({ email }).then((worker) => {
-    if (worker) {
-      return res
-      .status(400)
-      .json({ message: "Worker already exists. Please change the email"})
-    }
-
-    const salt = bcrypt.genSaltSync(bcryptSalt);
-    const hashPass = bcrypt.hashSync(password, salt);
-
-    Worker.create({
-      name,
-      surname,
-      email,
-      password: hashPass,
-      phone_number,
-      role,
-    })
-    .then((newWorker) => res.status(200).json(newWorker))
-    .catch(err => res.status(500).json(err))
-  })
-})
-
-//CREATE CLIENT -------- OK
+//Create user -------- OK
 router.post("/createUser", checkRole('Admin'), (req, res, next) => {
   const {
     client_number,
@@ -164,39 +109,6 @@ router.post("/logout", (req, res, next) => {
   req.logout();
   return res.status(200).json({ message: "Log out success!" });
 });
-
-//EDIT USER ---------- OK
-router.put("/editClient/:id", (req, res, next) => {
-  console.log(req.params)
-  const { id } = req.params
-  User.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true })
-    .then((user) => res.status(200).json(user))
-    .catch((err) => res.status(500).json(err));
-});
-
-//DELETE USER ------ OK
-router.delete("/deleteClient/:id", checkRole('Admin'), (req, res, next) => {
-  const { id } = req.params;
-  User.findOneAndRemove({_id: id})
-  .then(()=> res.status(200).json({ message: `User ${id} deleted from Database`}))
-  .catch((err) => res.status(500).json(err));
-})
-
-//EDIT WORKER ---------- OK
-router.put("/editWorker/:id", checkRole('Admin'),(req, res, next) => {
-  const { id } = req.params
-  Worker.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true })
-    .then((user) => res.status(200).json(user))
-    .catch((err) => res.status(500).json(err));
-});
-
-//DELETE WORKER----------- OK
-router.delete("/deleteWorker/:id", checkRole('Admin'),(req, res, next) => {
-  const { id } = req.params;
-  Worker.findOneAndRemove({_id: id})
-  .then(()=> res.status(200).json({ message: `Worker ${id} deleted from Database`}))
-  .catch((err) => res.status(500).json(err));
-})
 
 router.get("/loggedin", (req, res, next) => {
   if (req.isAuthenticated()) {

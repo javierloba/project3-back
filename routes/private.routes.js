@@ -75,7 +75,7 @@ router.delete("/services/:id/delete", checkRole("Admin"), (req, res, next) => {
 // ==== RESERVATIONS ROUTHES ==== //
 
 // Create reserve -------- OK
-router.post("/create-reserve", async (req, res, next) => {
+router.post("/create-reserve/", async (req, res, next) => {
   try {
     const { reservation_date, status, worker_id, service_id } = req.body;
     if (!reservation_date) {
@@ -101,6 +101,8 @@ router.post("/create-reserve", async (req, res, next) => {
       { $push: { todo_services: newReserve._id } },
       { new: true }
     );
+
+    
 
     return res.status(200).json(newReserve, updatedUser, updatedWorker);
   } catch (error) {

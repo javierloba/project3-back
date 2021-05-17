@@ -13,17 +13,16 @@ module.exports = (app) => {
   // Identificará a qué usuario pertenece la sesión
   passport.deserializeUser((id, cb) => {
     User.findById(id)
-      .then((user) =>
-        {
-          console.log("DeserializeUser")
-          if(!user){
-            Worker.findById( id )
-          .then((worker) => {
-            console.log("DeserializeWorker")
-            cb(null, worker)
-        })
-          }
-        cb(null, user)
+      .then((user) => {
+        console.log("DeserializeUser");
+        if (!user) {
+          Worker.findById(id).then((worker) => {
+            console.log("DeserializeWorker");
+            cb(null, worker);
+          });
+        } else {
+          cb(null, user);
+        }
       })
       .catch((error) => cb(error));
   });
@@ -35,11 +34,11 @@ module.exports = (app) => {
       (req, email, password, next) => {
         User.findOne({ email })
           .then((user) => {
-            console.log("Passport user", user)
+            console.log("Passport user", user);
             if (!user) {
               Worker.findOne({ email })
                 .then((worker) => {
-                  console.log("Passport worker", worker)
+                  console.log("Passport worker", worker);
                   if (!worker) {
                     return next(null, false, {
                       message: "Email o contraseña incorrectos linea 45.",
@@ -47,7 +46,7 @@ module.exports = (app) => {
                   }
 
                   if (bcrypt.compareSync(password, worker.password)) {
-                    console.log("Login worker")
+                    console.log("Login worker");
                     return next(null, worker);
                   } else {
                     return next(null, false, {
@@ -59,23 +58,19 @@ module.exports = (app) => {
               //return next(null, false, { message: 'Email o contraseña incorrectos.'});
             } else {
               if (user && bcrypt.compareSync(password, user.password)) {
-              console.log("Login user")
-              return next(null, user);
-            } else {
-              return next(null, false, {
-                message: "Email o contraseña incorrectos linea 67",
-              });
+                console.log("Login user");
+                return next(null, user);
+              } else {
+                return next(null, false, {
+                  message: "Email o contraseña incorrectos linea 67",
+                });
+              }
             }
-            }
-
-
           })
           .catch((error) => next(error));
       }
     )
   );
-
-  
 
   app.use(passport.initialize());
   app.use(passport.session());

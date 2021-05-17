@@ -6,7 +6,7 @@ const { checkRole } = require("../middlewares/index");
 // ==== USER ROUTHES ==== //
 
 //Show all users ------- OK
-router.get("/clients", checkRole("Admin", "Worker"), (req, res, next) => {
+router.get("/clients",  (req, res, next) => {
     User.find({})
         .then((users) => res.status(200).json(users))
         .catch((err) => res.status(500).json(err));

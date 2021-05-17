@@ -23,9 +23,9 @@ const workerRouter = require('./routes/worker.routes');
 
 app.use('/api/auth', authRouter);
 app.use('/api/reserve', reserveRouter);
-app.use('./api/service', serviceRouter);
-app.use('./api/user', userRouter);
-app.use('./api/worker', workerRouter);
+app.use('/api/service', serviceRouter);
+app.use('/api/user', userRouter);
+app.use('/api/worker', workerRouter);
 
 //  Catch 404 and respond with error message
 app.use((req, res, next) => {

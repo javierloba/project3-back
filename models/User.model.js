@@ -22,7 +22,7 @@ const userSchema = new Schema({
   phone_number: {type: String, required: true },
   service_reserve: [],
   promotions: [],
-  worker: {type: Schema.Types.ObjectId, ref: 'Worker'}
+  worker: {type: Schema.Types.ObjectId, ref: 'Worker', default: null}
   //avatar: {type: String, required: true}
 }, {
   timestamps: true,

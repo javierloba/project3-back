@@ -9,7 +9,7 @@ const bcryptSalt = 10;
 const { checkRole } = require('../middlewares/index')
 
 //Create user -------- OK
-router.post("/createUser", checkRole('Admin'), (req, res, next) => {
+router.post("/createUser", (req, res, next) => {
   const {
     client_number,
     name,
@@ -83,6 +83,61 @@ router.post("/createUser", checkRole('Admin'), (req, res, next) => {
   .catch((error) => res.status(500).json({error: "error linea 143", message: error}))
 });
 
+//Create worker ------ OK
+router.post("/createWorker", (req, res, next) => {
+  const {
+  name,
+  surname,
+  email,
+  password,
+  phone_number,
+  role,
+  } = req.body;
+
+  if (password.length < 3) {
+  return res
+      .status(400)
+      .json({
+      message: "Please make your password at least 3 characters long",
+      });
+  }
+
+  if(
+  !name ||
+  !surname ||
+  !email ||
+  !password ||
+  !phone_number ||
+  !role
+  ) {
+  return res
+      .status(400)
+      .json({ message: "Please fill all the fields in the form" });
+  }
+
+  Worker.findOne({ email }).then((worker) => {
+  if (worker) {
+      return res
+      .status(400)
+      .json({ message: "Worker already exists. Please change the email"})
+  }
+
+  const salt = bcrypt.genSaltSync(bcryptSalt);
+  const hashPass = bcrypt.hashSync(password, salt);
+
+  Worker.create({
+      name,
+      surname,
+      email,
+      password: hashPass,
+      phone_number,
+      role,
+  })
+  .then((newWorker) => res.status(200).json(newWorker))
+  .catch(err => res.status(500).json(err))
+  })
+})
+
 //LOGIN ----------- OK
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", (error, theUser, failureDetails) => {
@@ -95,6 +150,7 @@ router.post("/login", (req, res, next) => {
     }
 
     req.login(theUser, (error) => {
+      console.log("Auth routes", theUser)
       if (error) {
         return res.status(500).json(error);
       }

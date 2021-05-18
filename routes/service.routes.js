@@ -37,9 +37,10 @@ router.get("/service/:id", (req, res, next) => {
 });
 
 //Edit service ----------- OK
-router.put("/services/:id", checkRole("Admin", "Worker"), (req, res, next) => {
+router.put("/services/:id", (req, res, next) => {
     const { id } = req.params;
-    Service.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true })
+    console.log(req.body)
+    Service.findOneAndUpdate({ _id: id }, { name: req.body.name}, { new: true })
         .then((service) => res.status(200).json(service))
         .catch((err) => res.status(500).json(err));
 });

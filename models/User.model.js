@@ -8,7 +8,7 @@ const userSchema = new Schema({
   client_number: { type: Number, required: true, /*unique: true*/ },
   name: { type: String, required: true, trim: true },
   surname: { type: String, required: true, trim: true },
-  client_antiquity: {type: String, required: true},
+  client_antiquity: {type: Date, default: Date.now().toLocaleDate},
   email: {
     type: String,
     unique: true,

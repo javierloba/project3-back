@@ -10,6 +10,7 @@ const Reserve = require("../models/Reserve.model");
 router.post("/create-reserve", async (req, res, next) => {
     try {
     const { reservation_date, status, worker_id, service_id } = req.body;
+    console.log(reservation_date)
     if (!reservation_date) {
         return res.status(400).json({ message: "Date required" });
     }

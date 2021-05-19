@@ -8,6 +8,9 @@
     "start": "node ./bin/www",
     "dev": "DEBUG=server:* nodemon ./bin/www"
   },
+  "engines": {
+    "node": "15.12.0"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

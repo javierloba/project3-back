@@ -4,7 +4,7 @@ module.exports = (app) => {
   app.use(
     cors({
       credentials: true, 
-      origin: [process.env.PUBLIC_DOMAIN]
+      origin: [process.env.PUBLIC_DOMAIN, "https://iron-nails.herokuapp.com", "http://iron-nails.herokuapp.com" ]
     })
   )
 }

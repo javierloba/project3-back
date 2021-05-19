@@ -10,6 +10,7 @@ const app = express();
 require('./configs/middleware.config')(app);
 require('./configs/cors.config')(app);
 
+
 // Session config + Passport
 require('./configs/session.config')(app);
 require('./configs/passport.config')(app);
@@ -26,6 +27,11 @@ app.use('/api/reserve', reserveRouter);
 app.use('/api/service', serviceRouter);
 app.use('/api/user', userRouter);
 app.use('/api/worker', workerRouter);
+
+app.use((req, res, next) => {
+  // If no previous routes match the request, send back the React app.
+  res.sendFile(__dirname + "/public/index.html");
+});
 
 //  Catch 404 and respond with error message
 app.use((req, res, next) => {

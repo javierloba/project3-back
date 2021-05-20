@@ -9,8 +9,8 @@ const Reserve = require("../models/Reserve.model");
 // Create reserve -------- OK
 router.post("/create-reserve", async (req, res, next) => {
     try {
-    const { reservation_date, status, worker_id, service_id } = req.body;
-    console.log(reservation_date)
+    const { reservation_date, status, worker_id, user_id, service_id, service_name } = req.body;
+    console.log(req.body)
     if (!reservation_date) {
         return res.status(400).json({ message: "Date required" });
     }
@@ -21,20 +21,22 @@ router.post("/create-reserve", async (req, res, next) => {
         status,
         service_id,
         assigned_worker: worker_id,
+        assigned_client: user_id,
+        service_name
     });
-
+console.log(newReserve)
     const updatedUser = await User.findOneAndUpdate(
         { _id: userId },
         { $push: { service_reserve: newReserve._id } },
         { new: true }
     );
-
+console.log(updatedUser)
     const updatedWorker = await Worker.findOneAndUpdate(
         { _id: worker_id },
         { $push: { todo_services: newReserve._id } },
         { new: true }
     );
-
+    console.log(updatedWorker)
     return res.status(200).json(newReserve, updatedUser, updatedWorker);
     } catch (error) {
     return res.status(500).json(error);
@@ -45,6 +47,9 @@ router.post("/create-reserve", async (req, res, next) => {
 router.get("/reserves", (req, res, next) => {
     Reserve.find({})
     .populate("service_id")
+    .populate("assigned_worker")
+    .populate("assigned_client")
+    .populate("worker_id")
     .then((reserves) => res.status(200).json(reserves))
     .catch((err) => res.status(500).json(err));
 });
@@ -53,6 +58,8 @@ router.get("/reserves", (req, res, next) => {
 router.get("/reserve/:id", (req, res, next) => {
     const { id } = req.params;
     Reserve.findById(id)
+    .populate("assigned_worker")
+    .populate("assigned_client")
         .then((service) => res.status(200).json(service))
         .catch((err) => res.status(500).json(err));
 });

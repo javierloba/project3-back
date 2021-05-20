@@ -67,8 +67,8 @@ router.get("/reserve/:id", (req, res, next) => {
 //Edit reserve ----------- OK
 router.put("/reserve/:id", (req, res, next) => {
     const { id } = req.params;
-    console.log(id, req.body);
-    Reserve.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true })
+    console.log("testlog", id, req.body);
+    Reserve.findOneAndUpdate({ _id: id }, { reservation_date: req.body.reservation_date }, { new: true })
         .then((reserve) => res.status(200).json(reserve))
         .catch((err) => res.status(500).json(err));
 });

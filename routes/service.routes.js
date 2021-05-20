@@ -8,11 +8,11 @@ const { checkRole } = require("../middlewares/index");
 //Create service ------------ OK
 router.post("/createService", checkRole("Admin"), (req, res, next) => {
     const { name, image, description, duration, price } = req.body;
-    if (!name || !description || !image || !price || !duration) {
+    if (!name || !description || !price || !duration) {
         return res.status(400).json({ message: "All fields are required" });
 }
 
-    if (!name || !description || !image || !price) {
+    if (!name || !description || !price) {
         return res.status(400).json({ message: "All fields are required" });
 }
 
@@ -40,7 +40,7 @@ router.get("/service/:id", (req, res, next) => {
 router.put("/services/:id", (req, res, next) => {
     const { id } = req.params;
     console.log(req.body)
-    Service.findOneAndUpdate({ _id: id }, { name: req.body.name}, { new: true })
+    Service.findOneAndUpdate({ _id: id }, { ...req.body}, { new: true })
         .then((service) => res.status(200).json(service))
         .catch((err) => res.status(500).json(err));
 });

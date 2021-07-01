@@ -4,6 +4,17 @@
 
 Aplicación de gestión de clientes y trabajadores para un negocio de servicios. 
 
+https://iron-nails.herokuapp.com/
+
+Acceso admin: 
+e-mail: max.roca@test.com 
+password: Ironhacker2021!
+
+Acceso usuario: 
+e-mail: catimoonn@test.es 
+password: Ironhacker2021!
+
+
 --------------------------------------
 
 #### Backlog
